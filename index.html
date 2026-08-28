@@ -72,6 +72,13 @@ a{color:var(--teal);}
 /* ---------- Course closer-look ---------- */
 .course-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;max-width:520px;margin:0 auto;}
 @media (max-width:560px){ .course-grid{grid-template-columns:1fr;max-width:290px;} }
+.course-grid > div{position:relative;}
+.course-grid .peek-frame{transition:transform .35s cubic-bezier(.2,.7,.3,1),box-shadow .35s ease;transform-origin:center center;will-change:transform;}
+@media (hover:hover) and (pointer:fine){
+  .course-grid > div{cursor:zoom-in;}
+  .course-grid > div:hover{z-index:10;}
+  .course-grid > div:hover .peek-frame{transform:scale(1.9);box-shadow:0 30px 70px -20px rgba(8,63,57,.55);}
+}
 .course-points{display:flex;flex-direction:column;gap:14px;align-items:center;margin-top:32px;}
 .course-point{display:flex;gap:10px;align-items:flex-start;max-width:340px;}
 .course-point svg{flex-shrink:0;margin-top:2px;color:var(--teal);}
