@@ -143,6 +143,25 @@ a{color:var(--teal);}
 .price-btn.outline:hover{background:var(--teal-tint);}
 .price-compare{text-align:center;font-size:12.5px;color:var(--ink-faint);margin-top:22px;}
 
+/* ---------- Free chart signup ---------- */
+.freebie{background:var(--teal-dark);color:#F3FBF8;border-radius:20px;padding:36px 32px;display:grid;grid-template-columns:1.2fr 1fr;gap:32px;align-items:center;}
+@media (max-width:760px){ .freebie{grid-template-columns:1fr;padding:28px 22px;} }
+.freebie h2{color:#F3FBF8;font-size:26px;margin-bottom:8px;}
+.freebie p{color:#C9DED9;font-size:15px;margin:0;}
+.freebie .kicker{display:inline-block;background:var(--amber);color:#fff;font-size:10.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:5px 12px;border-radius:99px;margin-bottom:14px;}
+.freebie-form{display:flex;flex-direction:column;gap:10px;}
+.freebie-form input[type=email]{width:100%;padding:13px 14px;border-radius:11px;border:1.5px solid rgba(255,255,255,.25);background:rgba(255,255,255,.08);color:#fff;font-size:15px;}
+.freebie-form input[type=email]::placeholder{color:#9DBBB4;}
+.freebie-form input[type=email]:focus{outline:2px solid var(--amber);outline-offset:2px;border-color:transparent;}
+.freebie-form button{padding:13px;border-radius:11px;border:none;background:var(--amber);color:#fff;font-weight:700;font-size:14.5px;cursor:pointer;}
+.freebie-form button:hover{background:#B57A26;}
+.freebie-form button:disabled{opacity:.6;cursor:default;}
+.freebie-form .fine{font-size:12px;color:#9DBBB4;margin:0;}
+.freebie-form .hp{position:absolute;left:-9999px;opacity:0;height:0;}
+.freebie-form .msg{font-size:14px;margin:0;min-height:1.4em;}
+.freebie-form .msg.ok{color:#B9E6D6;}
+.freebie-form .msg.err{color:#F7C6B4;}
+
 /* ---------- About strip ---------- */
 .about{display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:flex-start;background:var(--teal-tint);border-radius:var(--radius);padding:26px 28px;}
 @media (max-width:600px){ .about{grid-template-columns:1fr;} }
@@ -373,6 +392,25 @@ footer .fbottom{margin-top:14px;padding-top:0;border-top:none;font-size:11.5px;c
   </div>
 </section>
 
+<section class="section" id="free-chart" style="padding-top:0">
+  <div class="wrap">
+    <div class="freebie">
+      <div>
+        <span class="kicker">Free download</span>
+        <h2>Estradiol Conversion Chart</h2>
+        <p>One printable page: labeled dose to expected serum estradiol for every patch, gel, spray, oral, and vaginal product — pulled straight from the app. For licensed prescribers.</p>
+      </div>
+      <form class="freebie-form" id="chart-form" novalidate>
+        <input type="email" name="email" id="chart-email" placeholder="you@yourclinic.com" required autocomplete="email">
+        <input type="text" name="website" class="hp" tabindex="-1" autocomplete="off">
+        <button type="submit" id="chart-btn">Send me the chart</button>
+        <p class="fine">We'll email you the PDF, plus updates about the course and app now and then. Unsubscribe anytime.</p>
+        <p class="msg" id="chart-msg" aria-live="polite"></p>
+      </form>
+    </div>
+  </div>
+</section>
+
 <section class="section">
   <div class="wrap narrow">
     <div class="about">
@@ -413,6 +451,26 @@ footer .fbottom{margin-top:14px;padding-top:0;border-top:none;font-size:11.5px;c
   </div>
 </section>
 
+
+<script>
+(function(){
+  var form=document.getElementById('chart-form'), btn=document.getElementById('chart-btn'), msg=document.getElementById('chart-msg'), email=document.getElementById('chart-email');
+  form.addEventListener('submit', async function(e){
+    e.preventDefault();
+    msg.className='msg'; msg.textContent='';
+    var v=email.value.trim();
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)){ msg.className='msg err'; msg.textContent='Please enter a valid email address.'; return; }
+    btn.disabled=true; btn.textContent='Sending…';
+    try{
+      var r=await fetch('/.netlify/functions/chart-request',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:v,website:form.website.value})});
+      var d=await r.json().catch(function(){return {};});
+      if(r.ok){ msg.className='msg ok'; msg.textContent='Sent — check your inbox (and spam folder) for the chart.'; form.reset(); btn.textContent='Sent'; }
+      else { msg.className='msg err'; msg.textContent=d.error||'Something went wrong. Please try again.'; btn.disabled=false; btn.textContent='Send me the chart'; }
+    }catch(err){ msg.className='msg err'; msg.textContent='Network error. Please try again.'; btn.disabled=false; btn.textContent='Send me the chart'; }
+  });
+})();
+</script>
+
 <footer>
   <div class="wrap">
     <div>
@@ -422,6 +480,7 @@ footer .fbottom{margin-top:14px;padding-top:0;border-top:none;font-size:11.5px;c
     <div class="flinks">
       <a href="#features">Features</a>
       <a href="#pricing">Pricing</a>
+      <a href="#free-chart">Free Chart</a>
       <a href="#faq">FAQ</a>
       <a href="https://bhrt.app">Log In</a>
     </div>
