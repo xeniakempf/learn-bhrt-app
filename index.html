@@ -122,13 +122,14 @@ a{color:var(--teal);}
 .price-list{list-style:none;margin:0 0 24px;padding:0;flex:1;}
 .price-badge{position:absolute;top:-13px;left:26px;background:var(--amber);color:#fff;font-size:10.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:5px 12px;border-radius:99px;}
 .price-card{padding-top:0;overflow:hidden;}
-.price-head{margin:0 -26px 22px;padding:22px 26px 18px;background:var(--teal-tint);border-bottom:1px solid var(--line);}
+.price-head{margin:0 -26px 22px;padding:20px 26px 18px;min-height:140px;display:flex;flex-direction:column;justify-content:flex-end;background:var(--teal-tint);border-bottom:1px solid var(--line);}
 .price-head h3{font-size:24px;line-height:1.15;margin:0 0 4px;color:var(--teal-dark);}
 .price-head .sub{font-size:13px;color:var(--teal-dark);opacity:.75;margin:0;}
 .price-card.hi .price-head{background:var(--teal-dark);border-bottom-color:var(--teal-dark);}
 .price-card.hi .price-head h3{color:#F3FBF8;}
 .price-card.hi .price-head .sub{color:#F3FBF8;}
-.price-card.hi .price-badge{position:static;display:inline-block;margin-bottom:10px;}
+.price-card.hi .price-badge{position:static;display:inline-block;align-self:flex-start;margin:0 0 auto;}
+.price-card.hi .price-head h3{margin-top:12px;}
 .price-amt{display:flex;align-items:baseline;gap:5px;margin-bottom:4px;}
 .price-amt .n{font-family:Georgia,serif;font-size:42px;font-weight:700;color:var(--ink);}
 .price-amt .per{font-size:14px;color:var(--ink-faint);}
@@ -338,7 +339,7 @@ footer .fbottom{margin-top:14px;padding-top:0;border-top:none;font-size:11.5px;c
       <div class="price-card">
         <div class="price-head">
           <h3>App Only</h3>
-          <p class="sub">Annual subscription to the reference app</p>
+          <p class="sub">Annual subscription</p>
         </div>
         <div class="price-amt"><span class="n">$149</span><span class="per">/ year</span></div>
         <p class="price-note">For providers who already know BHRT and just want the reference tool.</p>
@@ -355,7 +356,7 @@ footer .fbottom{margin-top:14px;padding-top:0;border-top:none;font-size:11.5px;c
         <div class="price-head">
           <span class="price-badge">Best Value</span>
           <h3>Complete Course + App</h3>
-          <p class="sub">One-time purchase — course plus a year of the app</p>
+          <p class="sub">One-time purchase, includes a year of the app</p>
         </div>
         <div class="price-amt"><span class="n">$599</span><span class="per">one-time</span></div>
         <p class="price-note">For providers who want the full course, plus a year of the reference tool.</p>
